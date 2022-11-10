@@ -5,6 +5,9 @@
 {% block body %}
     <a href="{{ path('home') }}">back to homepage</a>
     <h1>Post index</h1>
+    <div>
+        Total posts: <span id="posts_length">{{ posts|length }}</span>
+    </div>
 
     <table class="table">
         <thead>
