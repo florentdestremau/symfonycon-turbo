@@ -15,8 +15,11 @@ class PostType extends AbstractType
         $builder
             ->add('title')
             ->add('content')
-            ->add('publishedAt', DateTimeType::class, ['required' => false, 'widget' => 'single_text'])
-        ;
+            ->add('publishedAt', DateTimeType::class, [
+                'required' => false,
+                'widget'   => 'single_text',
+                'input'    => 'datetime_immutable',
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

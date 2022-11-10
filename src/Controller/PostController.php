@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Post;
 use App\Form\PostType;
 use App\Repository\PostRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -69,9 +70,27 @@ class PostController extends AbstractController
     #[Route('/{id}', name: 'post_delete', methods: ['POST'])]
     public function delete(Request $request, Post $post, PostRepository $postRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$post->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $post->getId(), $request->request->get('_token'))) {
             $postRepository->remove($post, true);
         }
+
+        return $this->redirectToRoute('post_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}/publish', name: 'post_publish', methods: ['POST'])]
+    public function publish(Post $post, EntityManagerInterface $entityManager): Response
+    {
+        $post->setPublishedAt(new \DateTimeImmutable('now'));
+        $entityManager->flush();
+
+        return $this->redirectToRoute('post_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}/unpublish', name: 'post_unpublish', methods: ['POST'])]
+    public function unpublish(Post $post, EntityManagerInterface $entityManager): Response
+    {
+        $post->setPublishedAt();
+        $entityManager->flush();
 
         return $this->redirectToRoute('post_index', [], Response::HTTP_SEE_OTHER);
     }
