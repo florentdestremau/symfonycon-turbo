@@ -20,7 +20,7 @@ class Post
     #[ORM\Column(type: Types::TEXT)]
     private string $content;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $publishedAt = null;
 
     public function getId(): ?int
@@ -57,7 +57,7 @@ class Post
         return $this->publishedAt;
     }
 
-    public function setPublishedAt(\DateTimeImmutable $publishedAt): self
+    public function setPublishedAt(?\DateTimeImmutable $publishedAt = null): self
     {
         $this->publishedAt = $publishedAt;
 
