@@ -3,6 +3,8 @@
 {% block title %}Post{% endblock %}
 
 {% block body %}
+    <a href="{{ path('post_index') }}">back to list</a>
+
     <h1>Post</h1>
 
     <table class="table">
@@ -26,7 +28,6 @@
         </tbody>
     </table>
 
-    <a href="{{ path('post_index') }}">back to list</a>
 
     <a href="{{ path('post_edit', {'id': post.id}) }}">edit</a>
 

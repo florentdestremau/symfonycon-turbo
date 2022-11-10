@@ -3,6 +3,7 @@
 {% block title %}Post index{% endblock %}
 
 {% block body %}
+    <a href="{{ path('home') }}">back to homepage</a>
     <h1>Post index</h1>
 
     <table class="table">
@@ -23,8 +24,8 @@
                 <td>{{ post.content }}</td>
                 <td>{{ post.publishedAt ? post.publishedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('post_show', {'id': post.id}) }}">show</a>
-                    <a href="{{ path('post_edit', {'id': post.id}) }}">edit</a>
+                    <a class="btn btn-primary" href="{{ path('post_show', {'id': post.id}) }}">show</a>
+                    <a class="btn btn-outline-secondary" href="{{ path('post_edit', {'id': post.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
