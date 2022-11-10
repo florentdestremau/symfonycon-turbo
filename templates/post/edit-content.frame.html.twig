@@ -1,0 +1,11 @@
+<turbo-frame id="post_{{ post.id }}_content">
+    {{ form_start(form) }}
+    {{ form_errors(form) }}
+    {{ form_widget(form) }}
+    <div>
+        <button class="btn btn-primary" type="submit">
+            save
+        </button>
+    </div>
+    {{ form_end(form) }}
+</turbo-frame>

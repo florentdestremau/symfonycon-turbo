@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\PostRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
 class Post
@@ -15,13 +16,24 @@ class Post
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(min: 4)]
     private string $title;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\Length(min: 10)]
     private string $content;
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $publishedAt = null;
+
+    public static function fromData(string $title, string $content): Post
+    {
+        $post = new static();
+        $post->title = $title;
+        $post->content = $content;
+
+        return $post;
+    }
 
     public function getId(): ?int
     {

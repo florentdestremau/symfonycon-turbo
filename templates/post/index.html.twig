@@ -8,6 +8,9 @@
     <div>
         Total posts: <span id="posts_length">{{ posts|length }}</span>
     </div>
+    <div>
+        Total published: <span id="published_length">{{ posts|filter(p => p.publishedAt)|length }}</span>
+    </div>
 
     <table class="table">
         <thead>
@@ -20,42 +23,54 @@
             </tr>
         </thead>
         <tbody>
-        {% for post in posts %}
-            <tr>
-                <td>{{ post.id }}</td>
-                <td>
-                    <a href="{{ path('post_show', {'id': post.id}) }}">{{ post.title }}</a>
-                </td>
-                <td>{{ post.content }}</td>
-                <td>
-                    <turbo-drive id="post_{{ post.id }}_publish_status">
-                        {% if post.publishedAt %}
-                            {{ post.publishedAt|date('Y-m-d H:i') }}
-                            <form action="{{ path('post_unpublish', {'id': post.id}) }}" method="post" class="d-inline">
-                                <button class="btn btn-outline-danger">
-                                    unpublish
-                                </button>
-                            </form>
-                        {% else %}
-                            <form action="{{ path('post_publish', {'id': post.id}) }}" method="post">
-                                <button class="btn btn-outline-primary">
-                                    publish
-                                </button>
-                            </form>
-                        {% endif %}
-                    </turbo-drive>
-                </td>
-                <td>
-                    <a class="btn btn-outline-secondary" href="{{ path('post_edit', {'id': post.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
+            {% for post in posts %}
+                <tr>
+                    <td>{{ post.id }}</td>
+                    <td>
+                        <a href="{{ path('post_show', {'id': post.id}) }}">{{ post.title }}</a>
+                    </td>
+                    <td>
+                        <turbo-frame id="post_{{ post.id }}_content">
+                            {{ post.content }}
+                            (<a href="{{ path('post_editcontent', {'id': post.id}) }}">edit</a>)
+                        </turbo-frame>
+                    </td>
+                    <td>
+                        <turbo-drive id="post_{{ post.id }}_publish_status">
+                            {% if post.publishedAt %}
+                                {{ post.publishedAt|date('Y-m-d H:i') }}
+                                <form action="{{ path('post_unpublish', {'id': post.id}) }}" method="post"
+                                      class="d-inline">
+                                    <button class="btn btn-outline-warning">
+                                        unpublish
+                                    </button>
+                                </form>
+                            {% else %}
+                                <form action="{{ path('post_publish', {'id': post.id}) }}" method="post">
+                                    <button class="btn btn-outline-primary">
+                                        publish
+                                    </button>
+                                </form>
+                            {% endif %}
+                        </turbo-drive>
+                    </td>
+                    <td class="d-flex">
+                        <a class="btn btn-outline-secondary me-1"
+                           href="{{ path('post_edit', {'id': post.id}) }}">edit</a>
+                        <form method="post" action="{{ path('post_delete', {'id': post.id}) }}" class="d-inline-block">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ post.id) }}">
+                            <button class="btn btn-outline-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">no records found</td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
 
     <a href="{{ path('post_new') }}">Create new</a>
+    <a href="{{ path('post_generate') }}">Generate new</a>
 {% endblock %}
