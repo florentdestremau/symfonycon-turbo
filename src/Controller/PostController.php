@@ -110,7 +110,7 @@ class PostController extends AbstractController
     #[Route('/{id<\d+>}/publish', name: 'post_publish', methods: ['POST'])]
     public function publish(Post $post, EntityManagerInterface $entityManager): Response
     {
-        $post->setPublishedAt(new \DateTimeImmutable('now'));
+        $post->publish();
         $entityManager->flush();
 
         return $this->redirectToRoute('post_index', [], Response::HTTP_SEE_OTHER);
@@ -119,7 +119,7 @@ class PostController extends AbstractController
     #[Route('/{id<\d+>}/unpublish', name: 'post_unpublish', methods: ['POST'])]
     public function unpublish(Post $post, EntityManagerInterface $entityManager): Response
     {
-        $post->setPublishedAt();
+        $post->unpublish();
         $entityManager->flush();
 
         return $this->redirectToRoute('post_index', [], Response::HTTP_SEE_OTHER);

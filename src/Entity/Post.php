@@ -45,7 +45,7 @@ class Post
         return $this->title;
     }
 
-    public function setTitle(string $title): self
+    public function setTitle(string $title): static
     {
         $this->title = $title;
 
@@ -57,7 +57,7 @@ class Post
         return $this->content;
     }
 
-    public function setContent(string $content): self
+    public function setContent(string $content): static
     {
         $this->content = $content;
 
@@ -69,9 +69,23 @@ class Post
         return $this->publishedAt;
     }
 
-    public function setPublishedAt(?\DateTimeImmutable $publishedAt = null): self
+    public function setPublishedAt(?\DateTimeImmutable $publishedAt): static
     {
         $this->publishedAt = $publishedAt;
+
+        return $this;
+    }
+
+    public function publish(): static
+    {
+        $this->publishedAt = new \DateTimeImmutable();
+
+        return $this;
+    }
+
+    public function unpublish(): static
+    {
+        $this->publishedAt = null;
 
         return $this;
     }
