@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\UX\Turbo\TurboBundle;
 
 #[Route('/post')]
 class PostController extends AbstractController
@@ -20,7 +21,8 @@ class PostController extends AbstractController
     public function index(PostRepository $postRepository): Response
     {
         return $this->render('post/index.html.twig', [
-            'posts' => $postRepository->findAll(),
+            'posts'           => $postRepository->findAll(),
+            'published_count' => $postRepository->countPublished(),
         ]);
     }
 
@@ -131,20 +133,28 @@ class PostController extends AbstractController
     }
 
     #[Route('/{id<\d+>}/publish', name: 'post_publish', methods: ['POST'])]
-    public function publish(Post $post, EntityManagerInterface $entityManager): Response
+    public function publish(Request $request, Post $post, PostRepository $postRepository): Response
     {
         $post->publish();
-        $entityManager->flush();
+        $postRepository->save($post, true);
+        $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
 
-        return $this->redirectToRoute('post_index', [], Response::HTTP_SEE_OTHER);
+        return $this->render('post/on_publish.stream.html.twig', [
+            'post'            => $post,
+            'published_count' => $postRepository->countPublished(),
+        ]);
     }
 
     #[Route('/{id<\d+>}/unpublish', name: 'post_unpublish', methods: ['POST'])]
-    public function unpublish(Post $post, EntityManagerInterface $entityManager): Response
+    public function unpublish(Request $request, Post $post, PostRepository $postRepository): Response
     {
         $post->unpublish();
-        $entityManager->flush();
+        $postRepository->save($post, true);
+        $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
 
-        return $this->redirectToRoute('post_index', [], Response::HTTP_SEE_OTHER);
+        return $this->render('post/on_publish.stream.html.twig', [
+            'post'            => $post,
+            'published_count' => $postRepository->countPublished(),
+        ]);
     }
 }

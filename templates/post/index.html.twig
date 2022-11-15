@@ -5,11 +5,13 @@
 {% block body %}
     <a href="{{ path('home') }}">back to homepage</a>
     <h1>Post index</h1>
-    <div>
-        Total posts: <span id="posts_length">{{ posts|length }}</span>
-    </div>
-    <div>
-        Total published: <span id="published_length">{{ posts|filter(p => p.publishedAt)|length }}</span>
+    <div class="d-flex">
+        <div class="me-5 h3">
+            Total posts: <span id="posts_length">{{ posts|length }}</span>
+        </div>
+        <div class="h3">
+            Total published: <span id="published_post_counter">{{ published_count }}</span>
+        </div>
     </div>
 
     <table class="table">
@@ -36,7 +38,7 @@
                         </turbo-frame>
                     </td>
                     <td style="width: 20%;">
-                        <turbo-drive id="post_{{ post.id }}_publish_status">
+                        <turbo-frame id="post_{{ post.id }}_publish_status">
                             {% if post.publishedAt %}
                                 {{ post.publishedAt|date('Y-m-d H:i') }}
                                 <form action="{{ path('post_unpublish', {'id': post.id}) }}" method="post"
@@ -52,7 +54,7 @@
                                     </button>
                                 </form>
                             {% endif %}
-                        </turbo-drive>
+                        </turbo-frame>
                     </td>
                     <td class="d-flex">
                         <a class="btn btn-outline-secondary me-1"

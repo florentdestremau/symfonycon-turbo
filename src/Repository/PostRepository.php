@@ -39,6 +39,15 @@ class PostRepository extends ServiceEntityRepository
         }
     }
 
+    public function countPublished(): int
+    {
+        return intval(
+            $this->getEntityManager()
+                ->createQuery('select count(p) from App\Entity\Post p where p.publishedAt is not null')
+                ->getSingleScalarResult()
+        );
+    }
+
 //    /**
 //     * @return Post[] Returns an array of Post objects
 //     */

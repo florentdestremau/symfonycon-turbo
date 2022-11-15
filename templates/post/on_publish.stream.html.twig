@@ -1,0 +1,24 @@
+<turbo-stream target="post_{{ post.id }}_publish_status" action="update">
+    <template>
+        {% if post.publishedAt %}
+            {{ post.publishedAt|date('Y-m-d H:i') }}
+            <form action="{{ path('post_unpublish', {'id': post.id}) }}" method="post" class="d-inline">
+                <button class="btn btn-outline-warning">
+                    unpublish
+                </button>
+            </form>
+        {% else %}
+            <form action="{{ path('post_publish', {'id': post.id}) }}" method="post">
+                <button class="btn btn-outline-primary">
+                    publish
+                </button>
+            </form>
+        {% endif %}
+    </template>
+</turbo-stream>
+
+<turbo-stream target="published_post_counter" action="update">
+    <template>
+        {{ published_count }}
+    </template>
+</turbo-stream>
