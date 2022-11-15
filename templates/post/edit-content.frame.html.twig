@@ -3,15 +3,17 @@
     {{ form_errors(form) }}
     <div data-controller="text-length">
         {{ form_label(form.content) }}
-        {{ form_widget(form.content, {'attr': {'data-text-length-target': 'textarea', 'data-action': 'input->text-length#onChange'}}) }}
-        <div class="d-flex">
-            <span data-text-length-target="counter">
-                {{ post.content|length }} characters
-            </span>
-            <div class="ms-3">
-                {{ form_errors(form.content) }}
-            </div>
-        </div>
+        {{ form_widget(form.content, {
+            'attr': {
+                'data-text-length-target': 'textarea',
+                'data-action': 'input->text-length#onChange'
+            }
+        }) }}
+        <span data-text-length-target="counter">
+            {{ post.content|length }} characters
+        </span>
+        <br>
+        {{ form_errors(form.content) }}
     </div>
     <div>
         <button class="btn btn-primary" type="submit">
