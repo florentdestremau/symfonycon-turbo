@@ -1,0 +1,28 @@
+<turbo-frame id="modal_frame">
+    <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="modalLabel">Create new post</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <turbo-frame id="new_post_form">
+                        {{ form_start(form) }}
+                        {{ form_errors(form) }}
+                        {{ form_widget(form) }}
+                        <div class="text-end">
+                            <button type="submit" class="btn btn-primary">save new post</button>
+                        </div>
+                        {{ form_end(form) }}
+                    </turbo-frame>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+      window.modal = new bootstrap.Modal(document.getElementById('modal'));
+      window.modal.show();
+    </script>
+</turbo-frame>

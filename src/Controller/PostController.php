@@ -43,6 +43,25 @@ class PostController extends AbstractController
         ]);
     }
 
+    #[Route('/newmodal', name: 'post_newmodal', methods: ['GET', 'POST'])]
+    public function newmodal(Request $request, PostRepository $postRepository): Response
+    {
+        $post = new Post();
+        $form = $this->createForm(PostType::class, $post, ['action' => $this->generateUrl('post_newmodal')]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $postRepository->save($post, true);
+
+            return $this->redirectToRoute('post_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('post/newmodal.frame.html.twig', [
+            'post' => $post,
+            'form' => $form,
+        ]);
+    }
+
     #[Route('/generate', name: 'post_generate', methods: ['GET'])]
     public function generate(PostRepository $postRepository): Response
     {
@@ -82,7 +101,11 @@ class PostController extends AbstractController
     #[Route('/{id<\d+>}/edit-content', name: 'post_editcontent', methods: ['GET', 'POST'])]
     public function editContent(Request $request, Post $post, PostRepository $postRepository): Response
     {
-        $form = $this->createForm(PostContentType::class, $post, ['action' => $this->generateUrl('post_editcontent', ['id' => $post->getId()])]);
+        $form = $this->createForm(
+            PostContentType::class,
+            $post,
+            ['action' => $this->generateUrl('post_editcontent', ['id' => $post->getId()])],
+        );
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

@@ -29,13 +29,13 @@
                     <td>
                         <a href="{{ path('post_show', {'id': post.id}) }}">{{ post.title }}</a>
                     </td>
-                    <td>
+                    <td style="width: 40%">
                         <turbo-frame id="post_{{ post.id }}_content">
                             {{ post.content }}
                             (<a href="{{ path('post_editcontent', {'id': post.id}) }}">edit</a>)
                         </turbo-frame>
                     </td>
-                    <td>
+                    <td style="width: 20%;">
                         <turbo-drive id="post_{{ post.id }}_publish_status">
                             {% if post.publishedAt %}
                                 {{ post.publishedAt|date('Y-m-d H:i') }}
@@ -72,5 +72,10 @@
     </table>
 
     <a href="{{ path('post_new') }}">Create new</a>
+    -
     <a href="{{ path('post_generate') }}">Generate new</a>
+    -
+    <a href="{{ path('post_newmodal') }}" data-turbo-frame="modal_frame">
+        Create new in modal
+    </a>
 {% endblock %}
