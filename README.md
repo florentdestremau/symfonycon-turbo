@@ -20,3 +20,8 @@ yarn encore dev-server
 
 # go to https://localhost:8000
 ```
+
+
+## Frankenphp
+
+You can run the project using frankenphp using the command `make frankenphp` (requires docker usage).
