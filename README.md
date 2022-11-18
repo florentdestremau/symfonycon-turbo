@@ -24,4 +24,4 @@ yarn encore dev-server
 
 ## Frankenphp
 
-You can run the project using frankenphp using the command `make frankenphp` (requires docker usage).
+You can run the project with [frankenphp](https://github.com/dunglas/frankenphp) using the command `make frankenphp` (requires docker usage).
