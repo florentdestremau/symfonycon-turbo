@@ -1,6 +1,6 @@
 # Symfony con 2022 turbo example project
 
-Note: this repo is now read-only, serving as an example. I made another talk @ Symfony LIve Paris 2023 about this and created another project: https://github.com/florentdestremau/turbo-paris-live
+_Note: this repo is now read-only, serving as an example. I made another talk @ Symfony LIve Paris 2023 about this and created another project: https://github.com/florentdestremau/turbo-paris-live_
 
 ## Requirements
 
